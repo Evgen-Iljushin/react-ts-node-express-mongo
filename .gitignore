@@ -3,5 +3,6 @@ logs
 package-lock.json
 .env
 .idea
+.git
 dist
 build
