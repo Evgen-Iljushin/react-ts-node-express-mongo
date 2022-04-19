@@ -12,6 +12,7 @@ import path from 'path';
 // routers import
 import clientRoute from './routes/client.route';
 import apiRoute from './routes/api.route';
+import authRoute from './routes/auth.route';
 
 const app = express();
 
@@ -25,6 +26,7 @@ const port = process.env.PORT;
 
 // Routes
 app.use('/api', apiRoute);
+app.use('/auth', authRoute);
 app.use('*', clientRoute);
 
 app.listen(port, () => {
