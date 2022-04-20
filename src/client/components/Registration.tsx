@@ -29,10 +29,12 @@ class Registration extends React.Component<Props, any> {
         this.handleRegistration = this.handleRegistration.bind(this);
         this.onChangeEmail = this.onChangeEmail.bind(this);
         this.onChangePassword = this.onChangePassword.bind(this);
+        this.onChangeRole = this.onChangeRole.bind(this);
 
         this.state = {
             email: '',
-            password: ''
+            password: '',
+            role: ''
         };
     }
 
@@ -48,6 +50,12 @@ class Registration extends React.Component<Props, any> {
         });
     }
 
+    onChangeRole (e) {
+        this.setState({
+            role: e.target.value
+        });
+    }
+
     async handleRegistration (e) {
         const { dispatch } = this.props;
 
@@ -57,12 +65,17 @@ class Registration extends React.Component<Props, any> {
                 loading: true
             });
 
-            const loginData = await AuthService.register(this.state.email, this.state.password);
+            const loginData = await AuthService.register(
+                this.state.email,
+                this.state.password,
+                this.state.role
+            );
             if (loginData.data.user) {
                 dispatch(registrationUser(loginData.data.user, dispatch));
                 document.location.replace('/');
             }
         } catch (e) {
+            alert('Ошибка регистрации');
             console.log('err: ', e);
             dispatch({
                 type: 'SET_MESSAGE',
@@ -83,11 +96,19 @@ class Registration extends React.Component<Props, any> {
                     noValidate
                     autoComplete="off"
                 >
-                    <TextField id="outlined-basic" label="email" variant="outlined" />
+                    <TextField
+                        id="outlined-basic"
+                        label="email"
+                        variant="outlined"
+                        autoComplete="off"
+                        onChange={this.onChangeEmail}
+                    />
                     <TextField id="outlined-basic"
                         label="password"
                         variant="outlined"
                         type="password"
+                        autoComplete="off"
+                        onChange={this.onChangePassword}
                     />
                 </Box>
                 <Box>
@@ -95,8 +116,10 @@ class Registration extends React.Component<Props, any> {
                         <FormLabel id="demo-radio-buttons-group-label">Тип пользователя</FormLabel>
                         <RadioGroup
                             aria-labelledby="demo-radio-buttons-group-label"
-                            defaultValue="user"
+                            defaultValue="Пользователь"
                             name="radio-buttons-group"
+                            value={this.state.role}
+                            onChange={this.onChangeRole}
                         >
                             <FormControlLabel value="admin" control={<Radio />} label="Админ" />
                             <FormControlLabel value="user" control={<Radio />} label="Пользователь" />

@@ -7,6 +7,7 @@ import NotFound from './components/NotFound';
 import Login from './components/Login';
 import Registration from './components/Registration';
 import store from './store/store';
+import axios from "axios";
 // import history from './helpers/history';
 
 const Router = ReactRouterDOM.BrowserRouter;
@@ -18,11 +19,40 @@ const storeCnt = store();
 export default class App extends React.Component<React.ComponentProps<any>, React.ComponentState> {
     constructor (props) {
         super(props);
-        /*
-        history.listen((location) => {
-            props.dispatch(clearMessage);
-        });
-         */
+
+        this.state = {
+            isAdmin: false,
+            userAuth: false
+        };
+    }
+
+    componentDidMount () {
+        this.callBackendAPI();
+    }
+
+    callBackendAPI = () => {
+        axios.post('/auth/checkUserAuth')
+            .then(res => {
+                const data = res.data;
+                console.log(data.user.role);
+                this.setState({
+                    userAuth: true,
+                    isAdmin: data.user.role === 'admin'
+                });
+
+                setTimeout(() => {
+                    console.log(this.state);
+                }, 0);
+            })
+            .catch(err => {
+                console.log('err get data: ', err);
+                this.setState({
+                    userAuth: false,
+                    isAdmin: false
+                });
+
+                console.log(this.state);
+            });
     }
 
     render () {
@@ -30,9 +60,9 @@ export default class App extends React.Component<React.ComponentProps<any>, Reac
             <Provider store={storeCnt}>
                 <Router>
                     <div>
-                        <Nav />
+                        <Nav userAuth={this.state.userAuth}/>
                         <Routes>
-                            <Route path="/" element={<MainPage />} />
+                            <Route path="/" element={<MainPage userAuth={this.state.userAuth} isAdmin={this.state.isAdmin}/>} />
                             <Route path="/login" element={<Login/>} />
                             <Route path="/registration" element={<Registration />} />
                             <Route path="*" element={<NotFound />}/>

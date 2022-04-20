@@ -1,10 +1,39 @@
 import * as React from 'react';
+import axios from 'axios';
+import AdminPage from '../components/admin';
 
-class MainPage extends React.Component<React.ComponentProps<any>, React.ComponentState> {
+interface Props {
+    userAuth: boolean,
+    isAdmin: false
+}
+
+class MainPage extends React.Component<Props, React.ComponentState> {
+    constructor (props) {
+        super(props);
+
+        this.state = {
+            isAdmin: false,
+            userAuth: false
+        };
+    }
+
     render () {
         return (
             <div>
-                <h2>Система управления заказами</h2>
+                <p>
+                    {(() => {
+                        if (this.props.isAdmin) {
+                            return (
+                                <AdminPage />
+                            );
+                        } else if (this.props.userAuth) {
+                            return (
+                                <span>user</span>
+                            );
+                        }
+                    })()}
+                </p>
+
             </div>
         );
     }
