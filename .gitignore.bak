@@ -6,3 +6,4 @@ package-lock.json
 .git
 dist
 build
+public/files/*
