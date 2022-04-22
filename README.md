@@ -11,5 +11,6 @@
 	* SESSION_SECRET=TEST-SECRET-STRING
 - Create in mongodb new database named "testApp"
 - `npm install` to install all dependencies
+- `npm build` to build project
 - `npm start` to start the local server
 
