@@ -46,7 +46,7 @@ app.use((req, res, next) => {
 app.use(cors());
 
 app.use(httpContext.middleware);
-app.use(express.static(path.join(__dirname, '../../public')));
+app.use(express.static('public'));
 const port = process.env.PORT;
 app.use(bodyParser.json());
 app.use(session({
@@ -57,6 +57,9 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+// files path
+app.use('/public/files', express.static('public/files'));
 
 // Routes
 app.use('/api', apiRoute);

@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import * as ReactRedux from 'react-redux';
 import axios from 'axios';
 import TableCleaners from './TableCleaners';
+import Services from './Services';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -117,7 +118,7 @@ class Registration extends React.Component<Props, any> {
                         <TableCleaners page={10} rowsPerPage={10} count={10} onPageChange={this.testFunction}/>
                     </TabPanel>
                     <TabPanel value={this.state.value} index={1}>
-                        Услуги
+                        <Services />
                     </TabPanel>
                     <TabPanel value={this.state.value} index={2}>
                         Заказы

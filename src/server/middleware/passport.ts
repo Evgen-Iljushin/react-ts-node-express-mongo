@@ -52,6 +52,7 @@ export const fetchUserFromToken = async (req: Request, res: Response, next: Next
     try {
         const token = req.headers.authorization || '';
         let user = null;
+        // @ts-ignore
         if (token) user = await Users.getUserByToken(token.split(' ')[1]);
         if (user) {
             req.context.user = user;
@@ -76,5 +77,5 @@ export const isAdminUser = async (req: Request, res: Response, next: NextFunctio
         console.log(user.role)
         if (user.role === 'admin') return next();
     }
-    res.status(500).redirect('/');
+    res.status(500).redirect('/123');
 };

@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "webpack-dev-server --mode development --open",
     "build": "webpack --mode production && tsc",
-    "start": "node dist/src/server/app.js",
+    "start": "node dist/app.js",
     "server:watch": "ts-node-dev --respawn --transpile-only src/server/app.ts"
   },
   "repository": {
@@ -27,6 +27,8 @@
     "@mui/material": "^5.6.1",
     "@types/express-session": "^1.17.4",
     "@types/js-cookie": "^3.0.1",
+    "@types/multer": "^1.4.7",
+    "@types/react-router-dom": "^5.3.3",
     "axios": "^0.26.1",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.20.0",
@@ -41,6 +43,7 @@
     "js-cookie": "^3.0.1",
     "log4js": "^6.4.5",
     "mongoose": "^6.3.0",
+    "multer": "^1.4.4",
     "passport": "^0.5.2",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
@@ -68,9 +71,8 @@
     "@types/react": "^18.0.5",
     "@types/react-dom": "^18.0.1",
     "@types/react-redux": "^7.1.24",
-    "@types/react-router": "^5.1.18",
-    "@types/react-router-dom": "^5.3.3",
     "@types/redux": "^3.6.0",
+    "@types/uuidv4": "^5.0.0",
     "@typescript-eslint/eslint-plugin": "^5.19.0",
     "@typescript-eslint/parser": "^5.19.0",
     "babel-loader": "^8.2.4",
@@ -85,6 +87,7 @@
     "prop-types": "^15.8.1",
     "ts-node-dev": "^1.1.8",
     "typescript": "^4.6.3",
+    "uuidv4": "^6.2.13",
     "webpack": "^5.72.0",
     "webpack-cli": "^4.9.2",
     "webpack-dev-server": "^4.8.1"

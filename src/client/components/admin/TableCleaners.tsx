@@ -11,7 +11,7 @@ import TableFooter from '@mui/material/TableFooter';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { useTheme } from '@mui/material/styles';
+import { useTheme, styled } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import FirstPageIcon from '@mui/icons-material/FirstPage';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
@@ -21,8 +21,7 @@ import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
+import TextField from '@mui/material/TextField';
 import DialogTitle from '@mui/material/DialogTitle';
 
 const connect = ReactRedux.connect;
@@ -36,7 +35,8 @@ const style = {
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
-    p: 4
+    p: 4,
+    textAlign: 'center'
 };
 
 interface TablePaginationActionsProps {
@@ -105,10 +105,11 @@ function TablePaginationActions (props: TablePaginationActionsProps) {
     );
 }
 
-function createData (name: string, calories: number, fat: number) {
-    return { name, calories, fat };
+function createData (name: string, description: string, date: Date) {
+    return { name, description, date };
 }
 
+/*
 const rows = [
     createData('Cupcake', 305, 3.7),
     createData('Donut', 452, 25.0),
@@ -125,6 +126,12 @@ const rows = [
     createData('Oreo', 437, 18.0)
 ].sort((a, b) => (a.calories < b.calories ? -1 : 1));
 
+ */
+
+const Input = styled('input')({
+    display: 'none'
+});
+
 class TableCleaners extends React.Component<TablePaginationActionsProps, any> {
     constructor (props) {
         super(props);
@@ -136,12 +143,114 @@ class TableCleaners extends React.Component<TablePaginationActionsProps, any> {
             openModal1: false,
             openModal2: false,
             openDialog1: false,
-            openDialog2: false
+            openDialog2: false,
+            newDryCleanerName: '',
+            newDryCleanerDescription: '',
+            newDryCleanerImageList: [],
+            tableRows: [],
+            deleteCleanerId: ''
         };
 
+        this.changeNameNewCleaner = this.changeNameNewCleaner.bind(this);
+        this.changeDescriptionNewCleaner = this.changeDescriptionNewCleaner.bind(this);
         this.setState({
-            emptyRows: this.state.page > 0 ? Math.max(0, (1 + this.state.page) * this.state.rowsPerPage - rows.length) : 0
+            emptyRows: this.state.page > 0 ? Math.max(0, (1 + this.state.page) * this.state.rowsPerPage - this.state.tableRows.length) : 0
         });
+    }
+
+    componentDidMount () {
+        this.getAllCleaners();
+    }
+
+    getAllCleaners = () => {
+        axios.post('/api/getAllCleaners')
+            .then(res => {
+                const data = res.data;
+                this.setState({
+                    tableRows: res.data
+                });
+
+                setTimeout(() => {
+                    this.setState({
+                        emptyRows: this.state.page > 0 ? Math.max(0, (1 + this.state.page) * this.state.rowsPerPage - this.state.tableRows.length) : 0
+                    });
+                }, 0);
+            })
+            .catch(err => {
+                console.log('err fetAllCleaners: ', err);
+            });
+    }
+
+    changeNameNewCleaner = (e: React.ChangeEvent<HTMLInputElement>) => {
+        this.setState({
+            newDryCleanerName: e.target.value
+        });
+    }
+
+    changeDescriptionNewCleaner = (e: React.ChangeEvent<HTMLInputElement>) => {
+        this.setState({
+            newDryCleanerDescription: e.target.value
+        });
+    }
+
+    changeImageList = (event) => {
+        const newFilesList = [];
+        for (const [key, value] of Object.entries(event.target.files)) {
+            newFilesList.push(value);
+        }
+        this.setState({
+            newDryCleanerImageList: newFilesList
+        });
+    }
+
+    deleteCleaners = () => {
+        const cleanersId = this.state.deleteCleanerId;
+        axios.delete('/api/deleteCleaners?id=' + cleanersId).then(res => {
+            this.handleCloseDialog(1, {});
+            this.getAllCleaners();
+        }).catch(err => {
+            this.handleCloseDialog(1, {});
+            console.log(err);
+            alert('ошибка при удалении химчистки');
+        });
+    }
+
+    createDryCleaner = (files) => {
+        axios.post('/api/createDryCleaner', {
+            name: this.state.newDryCleanerName,
+            description: this.state.newDryCleanerDescription,
+            files: files
+        }).then(res => {
+            this.setState({
+                newDryCleanerName: '',
+                newDryCleanerDescription: '',
+                newDryCleanerImageList: []
+            });
+
+            this.handleClose(2, {});
+            this.getAllCleaners();
+        }).catch(err => {
+            console.log(err);
+            alert('ошибка при добавлении химчистки');
+        });
+    }
+
+    saveNewCategory = async () => {
+        if (this.state.newDryCleanerName !== '' && this.state.newDryCleanerDescription !== '') {
+            const formData = new FormData();
+            if (this.state.newDryCleanerImageList.length > 0) {
+                this.state.newDryCleanerImageList.forEach(file => {
+                    formData.append('images', file);
+                });
+            }
+            await axios.post('/api/uploadFiles', formData, {
+            }).then(res => {
+                return this.createDryCleaner(res.data);
+            }).catch(err => {
+                console.log(err);
+                alert('ошибка при загрузки файлов');
+            });
+        } else alert('Данные не заполнены');
     }
 
     handleOpen = (modalNumb: number, data: object) => {
@@ -170,6 +279,9 @@ class TableCleaners extends React.Component<TablePaginationActionsProps, any> {
         switch (dialogNumb) {
         case 1:
             this.setState({ openDialog1: true });
+            this.setState({
+                deleteCleanerId: data
+            });
             break;
         case 2:
             this.setState({ openDialog2: true });
@@ -202,35 +314,6 @@ class TableCleaners extends React.Component<TablePaginationActionsProps, any> {
         this.setState({ page: 0 });
     };
 
-    componentDidMount () {
-        this.callBackendAPI();
-    }
-
-    callBackendAPI = () => {
-        axios.post('/auth/checkUserAuth')
-            .then(res => {
-                const data = res.data;
-                console.log(data.user.role);
-                this.setState({
-                    userAuth: true,
-                    isAdmin: data.user.role === 'admin'
-                });
-
-                setTimeout(() => {
-                    console.log(this.state);
-                }, 0);
-            })
-            .catch(err => {
-                console.log('err get data: ', err);
-                this.setState({
-                    userAuth: false,
-                    isAdmin: false
-                });
-
-                console.log(this.state);
-            });
-    }
-
     render () {
         return (
             <div>
@@ -241,27 +324,27 @@ class TableCleaners extends React.Component<TablePaginationActionsProps, any> {
                     <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
                         <TableBody>
                             {(this.state.rowsPerPage > 0
-                                ? rows.slice(this.state.page * this.state.rowsPerPage,
+                                ? this.state.tableRows.slice(this.state.page * this.state.rowsPerPage,
                                     this.state.page * this.state.rowsPerPage + this.state.rowsPerPage)
-                                : rows
+                                : this.state.tableRows
                             ).map((row) => (
                                 <TableRow key={row.name}>
                                     <TableCell component="th" scope="row">
                                         {row.name}
                                     </TableCell>
-                                    <TableCell style={{ width: 160 }} align="right">
-                                        {row.calories}
+                                    <TableCell align="right">
+                                        {row.description}
                                     </TableCell>
-                                    <TableCell style={{ width: 160 }} align="right">
-                                        {row.fat}
+                                    <TableCell style={{ width: 260 }} align="right">
+                                        {row.createdAt}
                                     </TableCell>
-                                    <TableCell style={{ width: 50 }} align="right">
+                                    {/* <TableCell style={{ width: 50 }} align="right">
                                         <Button
                                             variant="contained"
                                             onClick={() => this.handleOpen(1, {})} >Редактировать</Button>
-                                    </TableCell>
+                                    </TableCell> */}
                                     <TableCell style={{ width: 50 }} align="right">
-                                        <Button variant="contained" color="error" onClick={() => this.handleOpenDialog(1, {})}>Удалить</Button>
+                                        <Button variant="contained" color="error" onClick={() => this.handleOpenDialog(1, row._id)}>Удалить</Button>
                                     </TableCell>
                                 </TableRow>
                             ))}
@@ -276,7 +359,7 @@ class TableCleaners extends React.Component<TablePaginationActionsProps, any> {
                                 <TablePagination
                                     rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
                                     colSpan={3}
-                                    count={rows.length}
+                                    count={this.state.tableRows.length}
                                     rowsPerPage={this.state.rowsPerPage}
                                     page={this.state.page}
                                     SelectProps={{
@@ -314,8 +397,39 @@ class TableCleaners extends React.Component<TablePaginationActionsProps, any> {
                     <div>
                         <Box sx={style}>
                             <h2>Новая химчистка</h2>
+                            <div>
+                                <div>
+                                    <TextField id="standard-basic" label="Название" variant="standard"
+                                        value={this.state.nameNewCleaner}
+                                        onChange={this.changeNameNewCleaner}
+                                    />
+                                </div>
+                                <p>
+                                    <TextField
+                                        id="outlined-multiline-static"
+                                        label="Описание"
+                                        multiline
+                                        rows={3}
+                                        defaultValue=""
+                                        value={this.state.descriptionNewCleaner}
+                                        onChange={this.changeDescriptionNewCleaner}
+                                    />
+                                </p>
+                                <label htmlFor="contained-button-file">
+                                    <Input accept="image/*" id="contained-button-file" multiple type="file"
+                                        onChange={this.changeImageList}
+                                    />
+                                    <p>{ this.state.newDryCleanerImageList.length > 0
+                                        ? this.state.newDryCleanerImageList.map(el => el.name).join(', ')
+                                        : 'Файлы не выбраны'
+                                    }</p>
+                                    <Button variant="contained" component="span">
+                                        Загрузить фото
+                                    </Button>
+                                </label>
+                            </div><br />
                             <Button color="error" onClick={() => this.handleClose(2, {})}>Отменить</Button>
-                            <Button autoFocus>
+                            <Button autoFocus onClick={this.saveNewCategory}>
                                 Сохранить
                             </Button>
                         </Box>
@@ -332,7 +446,7 @@ class TableCleaners extends React.Component<TablePaginationActionsProps, any> {
                     </DialogTitle>
                     <DialogActions>
                         <Button onClick={() => this.handleCloseDialog(1, {})}>Отменить</Button>
-                        <Button onClick={() => this.handleCloseDialog(1, {})} autoFocus color="error">
+                        <Button onClick={this.deleteCleaners} autoFocus color="error">
                             Удалить
                         </Button>
                     </DialogActions>

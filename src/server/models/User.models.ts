@@ -2,7 +2,6 @@ import mongoose, { Schema, NativeError } from 'mongoose';
 import IUser from '../interfaces/user.types';
 import { generateJWT, decodeJWT, comparePassword } from '../middleware/modelsFunctions';
 import bcrypt from 'bcrypt-nodejs';
-import {string} from "prop-types";
 
 const user = new Schema<IUser>({
     name: {
