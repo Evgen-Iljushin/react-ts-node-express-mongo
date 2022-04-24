@@ -64,6 +64,9 @@ class Services extends React.Component<any, any> {
             services: [],
             deleteServicesId: ''
         };
+        this.changeDescriptionNewCleaner = this.changeDescriptionNewCleaner.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.changeNameNewCleaner = this.changeNameNewCleaner.bind(this);
     }
 
     componentDidMount () {
@@ -206,15 +209,17 @@ class Services extends React.Component<any, any> {
         }).then(res => {
 
             this.setState({
-                newServiceName: '',
-                newServiceDescription: '',
-                newServicePrice: 0,
+                newServicesName: '',
+                newServicesDescription: '',
+                newServicesPrice: 0,
                 newServiceImageList: []
             });
 
-            this.handleClose(2, {});
-            this.getAllCleaners();
-            this.getServices(this.state.selectedIndex);
+            setTimeout(() => {
+                this.handleClose(2, {});
+                this.getAllCleaners();
+                this.getServices(this.state.selectedIndex);
+            });
         }).catch(err => {
             console.log(err);
             alert('ошибка при добавлении химчистки');
@@ -222,9 +227,9 @@ class Services extends React.Component<any, any> {
     }
 
     saveService = async () => {
-        if (this.state.newServiceName !== '' &&
-            this.state.newServiceDescription !== '' &&
-            this.state.newServicePrice !== 0) {
+        if (this.state.newServicesName !== '' &&
+            this.state.newServicesDescription !== '' &&
+            this.state.newServicesPrice !== 0) {
             if (this.state.selectedIndex === 0) return alert('Выберите химчистку');
             const formData = new FormData();
             if (this.state.newServiceImageList.length > 0) {
@@ -242,6 +247,7 @@ class Services extends React.Component<any, any> {
     }
 
     handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        console.log('event.target.value: ', event.target.value)
         this.setState({
             newServicesPrice: event.target.value
         });
