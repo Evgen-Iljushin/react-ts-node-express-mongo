@@ -1,9 +1,16 @@
 import multer from 'multer';
 import { uuid } from 'uuidv4';
-import logger from "../lib/log";
+import logger from '../lib/log';
 import { Request, Response } from 'express';
+import fs from 'fs';
 
 const DIR = './public/files/';
+
+if (!fs.existsSync(DIR)) {
+    fs.mkdirSync(DIR);
+    logger.info('files folder created');
+}
+
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, DIR);
@@ -35,4 +42,4 @@ export const uploadFiles = async (req: Request, res: Response) => {
         logger.error('err createDryCleaner: ', err);
         return res.status(500).send({ error: err });
     }
-}
+};
