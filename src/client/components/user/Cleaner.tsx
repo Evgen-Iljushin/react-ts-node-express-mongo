@@ -175,7 +175,7 @@ class Cleaner extends React.Component<Props, any> {
                 >
                     <div>
                         <Box sx={style}>
-                            <h2>Новая химчистка</h2>
+                            <h2>Новая заказ</h2>
                             <div>
                                 <div>
                                     <TextField id="standard-basic" label="ФИО" variant="standard"

@@ -8,6 +8,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import Button from "@mui/material/Button";
 
 interface Params {
     name: string;
@@ -48,6 +49,19 @@ class Cleaner extends React.Component<Props, any> {
             });
     }
 
+    updateOrder = (orderId: string) => {
+        axios.post('/user/updateOrder', {
+            orderId,
+            status: 'Выполнен'
+        })
+            .then(res => {
+                this.callBackendAPI();
+            })
+            .catch(err => {
+                console.log('err update order: ', err);
+            });
+    }
+
     render () {
         return (
             <div>
@@ -60,6 +74,7 @@ class Cleaner extends React.Component<Props, any> {
                                 <TableCell>Цена</TableCell>
                                 <TableCell>Статус</TableCell>
                                 <TableCell >Дата создания</TableCell>
+                                <TableCell ></TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -76,6 +91,11 @@ class Cleaner extends React.Component<Props, any> {
                                     </TableCell>
                                     <TableCell>{order.status === 'Новый' ? 'В обработке' : order.status}</TableCell>
                                     <TableCell>{order.createdAt.split('T')[0]}</TableCell>
+                                    <TableCell>
+                                        { (order.status === 'Готов к выдаче') &&
+                                            <Button onClick={() => this.updateOrder(order._id)}>Завершить</Button>
+                                        }
+                                    </TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

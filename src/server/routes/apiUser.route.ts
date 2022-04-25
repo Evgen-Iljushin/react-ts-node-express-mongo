@@ -10,5 +10,6 @@ router.use(fetchUserFromToken);
 
 router.route('/createOrder').post(passportConfig.isAuthenticated, apiUserController.createOrder);
 router.route('/getUserOrder').post(passportConfig.isAuthenticated, apiUserController.getUserOrder);
+router.route('/updateOrder').post(passportConfig.isAuthenticated, apiUserController.updateUserOrder);
 
 export default router;
