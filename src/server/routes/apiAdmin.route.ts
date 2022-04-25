@@ -18,5 +18,6 @@ router.route('/createService').post(passportConfig.isAdminUser, apiController.cr
 router.route('/getServices').post(apiController.getServices);
 router.route('/deleteServices').delete(passportConfig.isAdminUser, apiController.deleteServices);
 router.route('/getOrders').post(passportConfig.isAdminUser, apiController.getOrders);
+router.route('/updateOrders').post(passportConfig.isAdminUser, apiController.updateOrders);
 
 export default router;

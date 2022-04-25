@@ -104,7 +104,6 @@ class Registration extends React.Component<Props, any> {
                             <Tab label="Химчистки" {...a11yProps(0)} />
                             <Tab label="Услуги" {...a11yProps(1)} />
                             <Tab label="Заказы" {...a11yProps(2)} />
-                            <Tab label="Пользователи" {...a11yProps(3)} />
                         </Tabs>
                     </Box>
                     <TabPanel value={this.state.value} index={0}>
@@ -116,9 +115,6 @@ class Registration extends React.Component<Props, any> {
                     </TabPanel>
                     <TabPanel value={this.state.value} index={2}>
                         <Orders />
-                    </TabPanel>
-                    <TabPanel value={this.state.value} index={3}>
-                        Пользователи
                     </TabPanel>
                 </Box>
             </div>

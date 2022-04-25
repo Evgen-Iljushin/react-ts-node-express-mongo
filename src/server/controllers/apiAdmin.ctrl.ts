@@ -197,6 +197,24 @@ class ApiAdminCtrl {
             return res.status(500).send({ error: err });
         }
     }
+
+    /**
+     * @desc update orders
+     * @route POST /
+     * @query { orderId: string, serviceName: string, priceService: number, serviceId: string, userName: string, status: string  }
+     * @success { orders: array }
+     * @access Private
+     */
+    updateOrders = async (req: Request, res: Response) => {
+        try {
+            const updateOrder = await Orders.findOneAndUpdate({ _id: req.body.orderId }, req.body);
+            console.log('updateOrder: ', updateOrder);
+            return res.status(200).send(updateOrder);
+        } catch (err) {
+            logger.error('err createOrder: ', err);
+            return res.status(500).send({ error: err });
+        }
+    }
 }
 
 export default ApiAdminCtrl;
