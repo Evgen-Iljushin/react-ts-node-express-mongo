@@ -1,11 +1,11 @@
 import { Router } from 'express';
-import ApiCtrl from '../controllers/api.ctrl';
+import ApiAdminCtrl from '../controllers/apiAdmin.ctrl';
 import { fetchUserFromToken } from '../middleware/passport';
 import * as passportConfig from '../middleware/passport';
 import { upload, uploadFiles } from '../middleware/fileUpload';
 const router = Router();
 
-const apiController = new ApiCtrl();
+const apiController = new ApiAdminCtrl();
 
 router.use(fetchUserFromToken);
 

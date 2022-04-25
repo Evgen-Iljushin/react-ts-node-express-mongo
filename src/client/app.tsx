@@ -6,8 +6,9 @@ import Nav from './components/Nav';
 import NotFound from './components/NotFound';
 import Login from './components/Login';
 import Registration from './components/Registration';
+import Cleaner from './components/user/Cleaner';
 import store from './store/store';
-import axios from "axios";
+import axios from 'axios';
 // import history from './helpers/history';
 
 const Router = ReactRouterDOM.BrowserRouter;
@@ -22,7 +23,8 @@ export default class App extends React.Component<React.ComponentProps<any>, Reac
 
         this.state = {
             isAdmin: false,
-            userAuth: false
+            userAuth: false,
+            balance: 100
         };
     }
 
@@ -34,15 +36,16 @@ export default class App extends React.Component<React.ComponentProps<any>, Reac
         axios.post('/auth/checkUserAuth')
             .then(res => {
                 const data = res.data;
-                console.log(data.user.role);
                 this.setState({
                     userAuth: true,
                     isAdmin: data.user.role === 'admin'
                 });
 
-                setTimeout(() => {
-                    console.log(this.state);
-                }, 0);
+                if (!(data.user.role === 'admin')) {
+                    this.setState({
+                        balance: Math.floor(Math.random() * (300 - 150 + 1)) + 150
+                    });
+                }
             })
             .catch(err => {
                 console.log('err get data: ', err);
@@ -50,8 +53,6 @@ export default class App extends React.Component<React.ComponentProps<any>, Reac
                     userAuth: false,
                     isAdmin: false
                 });
-
-                console.log(this.state);
             });
     }
 
@@ -60,9 +61,10 @@ export default class App extends React.Component<React.ComponentProps<any>, Reac
             <Provider store={storeCnt}>
                 <Router>
                     <div>
-                        <Nav userAuth={this.state.userAuth}/>
+                        <Nav userAuth={this.state.userAuth} isAdmin={this.state.isAdmin} balance={this.state.balance}/>
                         <Routes>
                             <Route path="/" element={<MainPage userAuth={this.state.userAuth} isAdmin={this.state.isAdmin}/>} />
+                            <Route path="/cleaners/:id" element={<Cleaner />}/>
                             <Route path="/login" element={<Login/>} />
                             <Route path="/registration" element={<Registration />} />
                             <Route path="*" element={<NotFound />}/>

@@ -25,7 +25,6 @@ passport.deserializeUser((id, done) => {
 });
 
 passport.use(new LocalStrategy({ usernameField: 'email' }, (email: string, password: string, done: any) => {
-    console.log(`${email} ${password}`);
     Users.findOne({ email: email }, (err: NativeError, user: IUser) => {
         if (err) {
             console.log('err: ', err);
@@ -39,7 +38,6 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, (email: string, passw
                 console.log('err: ', err);
                 return done(err);
             }
-            console.log('isMatch: ', isMatch);
             if (isMatch) {
                 return done(undefined, user);
             }
@@ -71,10 +69,8 @@ export const isAuthenticated = async (req: Request, res: Response, next: NextFun
 };
 
 export const isAdminUser = async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.context.user)
     if (req.context.user) {
         const user = req.context.user as IUser;
-        console.log(user.role)
         if (user.role === 'admin') return next();
     }
     res.status(500).redirect('/123');

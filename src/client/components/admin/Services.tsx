@@ -202,7 +202,7 @@ class Services extends React.Component<any, any> {
     createService = (files) => {
         axios.post('/api/createService', {
             name: this.state.newServicesName,
-            description: this.state.newServicesPrice,
+            description: this.state.newServicesDescription,
             price: this.state.newServicesPrice,
             cleanerId: this.state.selectedIndex,
             files: files
@@ -247,7 +247,6 @@ class Services extends React.Component<any, any> {
     }
 
     handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('event.target.value: ', event.target.value)
         this.setState({
             newServicesPrice: event.target.value
         });

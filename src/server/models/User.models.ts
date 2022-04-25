@@ -42,14 +42,12 @@ const user = new Schema<IUser>({
 
 user.pre('save', function save (next) {
     try {
-        console.log('save: ', this);
         const user = this as IUser;
         if (!user.isModified('password')) { return next(); }
         bcrypt.genSalt(10, (err, salt) => {
             if (err) { return next(err); }
             bcrypt.hash(user.password, salt, null, (err: NativeError, hash) => {
                 if (err) { return next(err); }
-                console.log('hash: ', hash);
                 user.hashPassword = hash;
                 user.password = '';
                 next();
@@ -62,13 +60,11 @@ user.pre('save', function save (next) {
 
 user.methods.updatePassword = async function (newPassword: string, res) {
     try {
-        console.log('save: ', this);
         const user = this as IUser;
         await bcrypt.genSalt(10, async (err, salt) => {
             if (err) { return res.status(500).send(err); }
             await bcrypt.hash(newPassword, salt, null, async (err: NativeError, hash) => {
                 if (err) { return res.status(500).send(err); }
-                console.log('hash: ', hash);
                 user.hashPassword = hash;
                 user.password = '';
                 const resultSave = await user.save();

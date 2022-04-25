@@ -5,7 +5,7 @@ import DryCleaners from '../models/dryCleaner.models';
 import Services from '../models/Service.models';
 import mongoose from 'mongoose';
 
-class ApiCtrl {
+class ApiAdminCtrl {
     /**
      * @desc Get client files
      * @route POST /
@@ -181,4 +181,4 @@ class ApiCtrl {
     }
 }
 
-export default ApiCtrl;
+export default ApiAdminCtrl;

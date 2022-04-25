@@ -32,7 +32,6 @@ store.dispatch({
 });
 
 const setStore = () => {
-    console.log('set store');
     return store;
 };
 

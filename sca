@@ -1,0 +1,91 @@
+[33mcommit 501474238f18933e3457811825e160d096fc8836[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: Evgen-Iljushin <62383132+Evgen-Iljushin@users.noreply.github.com>
+Date:   Sun Apr 24 18:34:56 2022 +0300
+
+    фdd creation of a folder for files
+
+[33mcommit aed846160591216ea2fff2f8694761398587a98e[m
+Author: Evgen-Iljushin <62383132+Evgen-Iljushin@users.noreply.github.com>
+Date:   Sun Apr 24 18:29:45 2022 +0300
+
+    fix create new service
+
+[33mcommit 5a0e5ca2a561d0f1468f3337d71596fdad7c7173[m
+Author: Evgen-Iljushin <62383132+Evgen-Iljushin@users.noreply.github.com>
+Date:   Fri Apr 22 17:08:08 2022 +0300
+
+    add test file
+
+[33mcommit f8caf67648dd5d6d525942ac15a8f00680050093[m
+Author: Evgen-Iljushin <62383132+Evgen-Iljushin@users.noreply.github.com>
+Date:   Fri Apr 22 17:07:16 2022 +0300
+
+    Revert "Delete test.txt"
+    
+    This reverts commit 76b0c9346c131daaef6fc084c8d0b39fa8097e5a.
+
+[33mcommit 76b0c9346c131daaef6fc084c8d0b39fa8097e5a[m
+Author: Evgen-Iljushin <62383132+Evgen-Iljushin@users.noreply.github.com>
+Date:   Fri Apr 22 17:06:33 2022 +0300
+
+    Delete test.txt
+
+[33mcommit a7ae53c264cae3faf445a07f2fe5bd2d0fce4e53[m
+Author: Evgen-Iljushin <62383132+Evgen-Iljushin@users.noreply.github.com>
+Date:   Fri Apr 22 17:06:16 2022 +0300
+
+    Create test.txt
+
+[33mcommit 9af5612c8e42486035e9ca59134b87e4c4b209ff[m
+Author: Evgen-Iljushin <62383132+Evgen-Iljushin@users.noreply.github.com>
+Date:   Fri Apr 22 17:05:08 2022 +0300
+
+    fix gitignore
+
+[33mcommit 7d08b546a7df470f079de880af6034f11638e8f7[m
+Author: Evgen-Iljushin <62383132+Evgen-Iljushin@users.noreply.github.com>
+Date:   Fri Apr 22 16:55:25 2022 +0300
+
+    update readme
+
+[33mcommit d919c5f42b2790973d1811eb1a55755928daafad[m
+Author: Evgen-Iljushin <62383132+Evgen-Iljushin@users.noreply.github.com>
+Date:   Fri Apr 22 16:52:13 2022 +0300
+
+    create/delete cleaners, services
+
+[33mcommit 9e56524f2f823708fe78157a1a654d078fa238dd[m
+Author: Evgen-Iljushin <62383132+Evgen-Iljushin@users.noreply.github.com>
+Date:   Thu Apr 21 02:10:32 2022 +0300
+
+    authorization, user types, part of the admin panel on the frontend
+
+[33mcommit fb5c2666a6e2356e14bc59592d85aec3be8a5172[m
+Author: Evgen-Iljushin <62383132+Evgen-Iljushin@users.noreply.github.com>
+Date:   Tue Apr 19 18:29:04 2022 +0300
+
+    added redux to the project
+
+[33mcommit 46bbfc23b6e9af670d53d793d9716361df4e7d83[m
+Author: Evgen-Iljushin <62383132+Evgen-Iljushin@users.noreply.github.com>
+Date:   Mon Apr 18 14:13:51 2022 +0300
+
+    server core files created
+
+[33mcommit 15358ee2876be5d510cf53abbf59842c29d081d7[m
+Author: Evgen-Iljushin <62383132+Evgen-Iljushin@users.noreply.github.com>
+Date:   Mon Apr 18 12:39:22 2022 +0300
+
+    add client layout. Create main, login, registration pages
+
+[33mcommit e6fdea239e11573a559fff9ed880d415ed247e15[m
+Author: Evgen-Iljushin <62383132+Evgen-Iljushin@users.noreply.github.com>
+Date:   Sun Apr 17 18:52:48 2022 +0300
+
+    installed dependencies for the frontend, project client setup
+
+[33mcommit d5cf5cfc7edad1e397c8d812aa619d221fe4273a[m
+Author: Evgen-Iljushin <62383132+Evgen-Iljushin@users.noreply.github.com>
+Date:   Sun Apr 17 15:53:21 2022 +0300
+
+    init git repo

@@ -24,7 +24,6 @@ const storage = multer.diskStorage({
 export const upload = multer({
     storage: storage,
     fileFilter: (req, file, cb) => {
-        console.log('file.filename: ', file);
         if ((file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg') && file.filename !== 'stringifyData') {
             cb(null, true);
         } else {
@@ -36,7 +35,6 @@ export const upload = multer({
 
 export const uploadFiles = async (req: Request, res: Response) => {
     try {
-        console.log('uploadFiles: ', req.files);
         return res.status(200).send(req.files);
     } catch (err) {
         logger.error('err createDryCleaner: ', err);

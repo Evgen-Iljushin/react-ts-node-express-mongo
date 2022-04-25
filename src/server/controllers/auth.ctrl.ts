@@ -16,7 +16,6 @@ class ApiCtrl {
      */
     login = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            console.log(req.body);
             passport.authenticate('local', async (err: Error, user: IUser) => {
                 if (err || !user) {
                     logger.error('ERR login user: ' + err);
@@ -47,7 +46,6 @@ class ApiCtrl {
      */
     register = async (req: Request, res: Response) => {
         try {
-            console.log(req.body);
             const user = new Users({
                 email: req.body.email,
                 password: req.body.password,

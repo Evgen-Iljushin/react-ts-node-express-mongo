@@ -75,15 +75,10 @@ class Registration extends React.Component<Props, any> {
         axios.post('/auth/checkUserAuth')
             .then(res => {
                 const data = res.data;
-                console.log(data.user.role);
                 this.setState({
                     userAuth: true,
                     isAdmin: data.user.role === 'admin'
                 });
-
-                setTimeout(() => {
-                    console.log(this.state);
-                }, 0);
             })
             .catch(err => {
                 console.log('err get data: ', err);
@@ -91,8 +86,6 @@ class Registration extends React.Component<Props, any> {
                     userAuth: false,
                     isAdmin: false
                 });
-
-                console.log(this.state);
             });
     }
 

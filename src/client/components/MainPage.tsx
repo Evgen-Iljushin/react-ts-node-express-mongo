@@ -1,6 +1,7 @@
 import * as React from 'react';
 import axios from 'axios';
 import AdminPage from '../components/admin';
+import UserPage from '../components/user';
 
 interface Props {
     userAuth: boolean,
@@ -28,7 +29,7 @@ class MainPage extends React.Component<Props, React.ComponentState> {
                             );
                         } else if (this.props.userAuth) {
                             return (
-                                <span>user</span>
+                                <UserPage />
                             );
                         }
                     })()}

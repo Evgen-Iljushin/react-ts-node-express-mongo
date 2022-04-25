@@ -25,6 +25,7 @@ const settings = ['Выйти из аккаунта'];
 
 type typeisActive = {
     isActive: boolean
+    isAdmin: boolean
 }
 
 const setActive = ({ isActive }: typeisActive) => (isActive ? 'active' : '');
@@ -33,10 +34,13 @@ interface State {
     auth: boolean
     anchorElNav: null | HTMLElement
     anchorElUser: null | HTMLElement
+    balance: number
 }
 
 interface Props {
     userAuth: boolean
+    isAdmin: boolean
+    balance: number
 }
 
 export default class Nav extends React.Component<Props, State> {
@@ -46,7 +50,8 @@ export default class Nav extends React.Component<Props, State> {
         this.state = {
             auth: false,
             anchorElNav: null,
-            anchorElUser: null
+            anchorElUser: null,
+            balance: 100
         };
 
         this.logoutUser = this.logoutUser.bind(this);
@@ -132,6 +137,16 @@ export default class Nav extends React.Component<Props, State> {
                                                 </MenuItem>
                                             </NavLink>
                                         ))}
+                                        { (this.props.isAdmin)
+                                            ? <NavLink to='orders' className={setActive} key='userOrders'>
+                                                <MenuItem onClick={this.handleCloseNavMenu}>
+                                                    <Typography textAlign="center"
+                                                        style={{ color: 'black' }}
+                                                    >Мои заказы</Typography>
+                                                </MenuItem>
+                                            </NavLink>
+                                            : ''
+                                        }
                                     </nav>
                                 </Menu>
                             </Box>
@@ -159,41 +174,73 @@ export default class Nav extends React.Component<Props, State> {
                                             </Button>
                                         </NavLink>
                                     ))}
+
+                                    { (!this.props.isAdmin && this.props.userAuth)
+                                        ? <NavLink to='orders'
+                                            className={setActive}
+                                            key='userOrders'
+                                            style={{ float: 'left' }}
+                                        >
+                                            <Button
+                                                onClick={this.handleCloseNavMenu}
+                                                sx={{ my: 2, color: 'white', display: 'block' }}
+                                            >
+                                                Мои заказы
+                                            </Button>
+                                        </NavLink>
+                                        : ''
+                                    }
                                 </nav>
                             </Box>
 
                             {(() => {
                                 if (this.props.userAuth) {
                                     return (
-                                        <Box sx={{ flexGrow: 0 }}>
-                                            <Tooltip title="Open settings">
-                                                <IconButton onClick={this.handleOpenUserMenu} sx={{ p: 0 }}>
-                                                    <Avatar alt="Avatar" src="/static/images/avatar/2.jpg" />
-                                                </IconButton>
-                                            </Tooltip>
-                                            <Menu
-                                                sx={{ mt: '45px' }}
-                                                id="menu-appbar"
-                                                anchorEl={this.state.anchorElUser}
-                                                anchorOrigin={{
-                                                    vertical: 'top',
-                                                    horizontal: 'right'
-                                                }}
-                                                keepMounted
-                                                transformOrigin={{
-                                                    vertical: 'top',
-                                                    horizontal: 'right'
-                                                }}
-                                                open={Boolean(this.state.anchorElUser)}
-                                                onClose={this.handleCloseUserMenu}
-                                            >
-                                                {settings.map((setting) => (
-                                                    <MenuItem key={setting} onClick={this.logoutUser}>
-                                                        <Typography textAlign="center">{setting}</Typography>
-                                                    </MenuItem>
-                                                ))}
-                                            </Menu>
-                                        </Box>
+                                        <div>
+                                            <Box sx={{ flexGrow: 0 }}>
+                                                <Tooltip title="Open settings">
+                                                    <IconButton onClick={this.handleOpenUserMenu} sx={{ p: 0 }}>
+                                                        <Avatar alt="Avatar" src="/static/images/avatar/2.jpg" />
+                                                    </IconButton>
+                                                </Tooltip>
+                                                <Menu
+                                                    sx={{ mt: '45px' }}
+                                                    id="menu-appbar"
+                                                    anchorEl={this.state.anchorElUser}
+                                                    anchorOrigin={{
+                                                        vertical: 'top',
+                                                        horizontal: 'right'
+                                                    }}
+                                                    keepMounted
+                                                    transformOrigin={{
+                                                        vertical: 'top',
+                                                        horizontal: 'right'
+                                                    }}
+                                                    open={Boolean(this.state.anchorElUser)}
+                                                    onClose={this.handleCloseUserMenu}
+                                                >
+                                                    {settings.map((setting) => (
+                                                        <MenuItem key={setting} onClick={this.logoutUser}>
+                                                            <Typography textAlign="center">{setting}</Typography>
+                                                        </MenuItem>
+                                                    ))}
+                                                </Menu>
+                                            </Box>
+                                            { (!this.props.isAdmin && this.props.userAuth)
+                                                ? <Button
+                                                    onClick={this.handleCloseNavMenu}
+                                                    style={{
+                                                        position: 'absolute',
+                                                        right: '10%',
+                                                        top: '7px'
+                                                    }}
+                                                    sx={{ my: 2, color: 'white', display: 'block', float: 'right' }}
+                                                >
+                                                    Баланс: {this.props.balance}
+                                                </Button>
+                                                : ''
+                                            }
+                                        </div>
                                     );
                                 }
                             })()}

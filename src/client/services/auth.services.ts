@@ -5,11 +5,9 @@ class AuthService {
         return axios
             .post(API_URL + 'signin', { email, password })
             .then((response) => {
-                console.log('response: ', response.status)
                 if (response.data.accessToken) {
                     localStorage.setItem('user', JSON.stringify(response.data));
                 }
-                console.log('AuthService.login: ', response.data);
                 return response.data;
             });
     }
@@ -18,7 +16,6 @@ class AuthService {
         return axios
             .post(API_URL + 'restorePassword', { restoreEmail, newPassword })
             .then((response) => {
-                console.log('restore password: ', response.data);
                 return response.data;
             });
     }
@@ -38,7 +35,6 @@ class AuthService {
                 if (response.data.accessToken) {
                     localStorage.setItem('user', JSON.stringify(response.data));
                 }
-                console.log('AuthService.login: ', response.data);
                 return response.data;
             });
     }
