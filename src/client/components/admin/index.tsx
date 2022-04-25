@@ -8,6 +8,7 @@ import * as ReactRedux from 'react-redux';
 import axios from 'axios';
 import TableCleaners from './TableCleaners';
 import Services from './Services';
+import Orders from './Orders';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -114,7 +115,7 @@ class Registration extends React.Component<Props, any> {
                         <Services />
                     </TabPanel>
                     <TabPanel value={this.state.value} index={2}>
-                        Заказы
+                        <Orders />
                     </TabPanel>
                     <TabPanel value={this.state.value} index={3}>
                         Пользователи

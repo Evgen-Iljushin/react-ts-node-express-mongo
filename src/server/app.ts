@@ -13,7 +13,8 @@ import path from 'path';
 
 // routers import
 import clientRoute from './routes/client.route';
-import apiRoute from './routes/api.route';
+import apiAdminRoute from './routes/apiAdmin.route';
+import apiUserRoute from './routes/apiUser.route';
 import authRoute from './routes/auth.route';
 
 export class Context {
@@ -62,7 +63,8 @@ app.use(passport.session());
 app.use('/public/files', express.static('public/files'));
 
 // Routes
-app.use('/api', apiRoute);
+app.use('/api', apiAdminRoute);
+app.use('/user', apiUserRoute);
 app.use('/auth', authRoute);
 app.use('*', clientRoute);
 

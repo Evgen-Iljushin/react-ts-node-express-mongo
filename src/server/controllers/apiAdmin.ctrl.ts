@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
 import logger from '../lib/log';
-import IUser from '../interfaces/user.types';
+import IUser from '../interfaces/Users.types';
 import DryCleaners from '../models/dryCleaner.models';
 import Services from '../models/Service.models';
 import mongoose from 'mongoose';
+import Orders from "../models/Order.models";
 
 class ApiAdminCtrl {
     /**
@@ -176,6 +177,23 @@ class ApiAdminCtrl {
             return res.status(500).send({ message: 'service not find and delete' });
         } catch (err) {
             logger.error('err deleteServices: ', err);
+            return res.status(500).send({ error: err });
+        }
+    }
+
+    /**
+     * @desc get orders
+     * @route POST /
+     * @query {}
+     * @success { orders: array }
+     * @access Private
+     */
+    getOrders = async (req: Request, res: Response) => {
+        try {
+            const orders = await Orders.find();
+            return res.status(200).send(orders);
+        } catch (err) {
+            logger.error('err createOrder: ', err);
             return res.status(500).send({ error: err });
         }
     }

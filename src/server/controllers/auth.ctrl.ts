@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import logger from '../lib/log';
 import passport from 'passport';
-import IUser from '../interfaces/user.types';
+import IUser from '../interfaces/Users.types';
 import { NativeError } from 'mongoose';
 import Users from '../models/User.models';
 import '../middleware/passport';

@@ -7,6 +7,7 @@ import NotFound from './components/NotFound';
 import Login from './components/Login';
 import Registration from './components/Registration';
 import Cleaner from './components/user/Cleaner';
+import UserOrders from './components/user/UserOrders';
 import store from './store/store';
 import axios from 'axios';
 // import history from './helpers/history';
@@ -56,6 +57,12 @@ export default class App extends React.Component<React.ComponentProps<any>, Reac
             });
     }
 
+    changeBalance = (newBalance) => {
+        this.setState({
+            balance: newBalance
+        });
+    }
+
     render () {
         return (
             <Provider store={storeCnt}>
@@ -64,9 +71,13 @@ export default class App extends React.Component<React.ComponentProps<any>, Reac
                         <Nav userAuth={this.state.userAuth} isAdmin={this.state.isAdmin} balance={this.state.balance}/>
                         <Routes>
                             <Route path="/" element={<MainPage userAuth={this.state.userAuth} isAdmin={this.state.isAdmin}/>} />
-                            <Route path="/cleaners/:id" element={<Cleaner />}/>
+                            <Route path="/cleaners/:id" element={<Cleaner
+                                // @ts-ignore
+                                balance={this.state.balance as string}
+                                changeBalance={this.changeBalance} />}/>
                             <Route path="/login" element={<Login/>} />
                             <Route path="/registration" element={<Registration />} />
+                            <Route path="/orders" element={<UserOrders />} />
                             <Route path="*" element={<NotFound />}/>
                         </Routes>
                     </div>

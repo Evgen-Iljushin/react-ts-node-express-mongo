@@ -14,6 +14,8 @@ export interface WithRouterProps<T = ReturnType<typeof useParams>> {
         urlParams: T;
     };
     navigate: ReturnType<typeof useNavigate>;
+    balance: number;
+    changeBalance: (newBalance: number) => void;
 }
 
 export const withRouter = <P extends object>(Component: ComponentType<P>, paramsArray: string[]) => {

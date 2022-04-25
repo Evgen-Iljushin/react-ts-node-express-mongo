@@ -1,5 +1,5 @@
 import mongoose, { Schema, NativeError } from 'mongoose';
-import IUser from '../interfaces/user.types';
+import IUser from '../interfaces/Users.types';
 import { generateJWT, decodeJWT, comparePassword } from '../middleware/modelsFunctions';
 import bcrypt from 'bcrypt-nodejs';
 

@@ -3,7 +3,7 @@ import { NativeError } from 'mongoose';
 import Users from '../models/User.models';
 import passport from 'passport';
 import passportLocal from 'passport-local';
-import IUser from '../interfaces/user.types';
+import IUser from '../interfaces/Users.types';
 
 const LocalStrategy = passportLocal.Strategy;
 

@@ -17,5 +17,6 @@ router.route('/deleteCleaners').delete(passportConfig.isAdminUser, apiController
 router.route('/createService').post(passportConfig.isAdminUser, apiController.createService);
 router.route('/getServices').post(apiController.getServices);
 router.route('/deleteServices').delete(passportConfig.isAdminUser, apiController.deleteServices);
+router.route('/getOrders').post(passportConfig.isAdminUser, apiController.getOrders);
 
 export default router;
